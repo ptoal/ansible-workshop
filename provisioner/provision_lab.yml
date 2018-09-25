@@ -58,6 +58,7 @@
       when:
        - autolicense is defined
        - autolicense
+       - license_data is not defined
 
 - name: Create lab instances in AWS
   hosts: localhost

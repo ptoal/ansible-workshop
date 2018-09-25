@@ -102,7 +102,6 @@
     - towerinstall is defined
     - towerinstall
     - license_data is not defined  
-      `
 
 - name: Post license key
   uri:

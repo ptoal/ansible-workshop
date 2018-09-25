@@ -109,7 +109,8 @@
     method: POST
     user: admin
     password: "{{admin_password}}"
-    body: "{{ license_data | default(lookup('file',playbook_dir+'/tower_license.json')) }}"
+    body: "{{ license_data }}"
+    #| default(lookup('file',playbook_dir+'/tower_license.json')) }}"
     body_format: json
     validate_certs: False
   when:

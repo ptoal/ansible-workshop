@@ -4,13 +4,11 @@
   become: no
   gather_facts: no
   tasks:
-      # Please read this, if you try to delete this task
-      # https://github.com/network-automation/linklight/issues/21
     - name: make sure we are running correct Ansible Version
       assert:
         that:
           - ansible_version.major >= 2
-          - ansible_version.minor >= 6
+          - ansible_version.minor >= 7
 
       # F5workshop and networking workshop are two different workshops
     - name: make sure f5workshop is not turned on when networking is
@@ -65,8 +63,6 @@
   connection: local
   become: no
   gather_facts: no
-  vars:
-    teardown: false
   roles:
     - manage_ec2_instances
 
@@ -79,6 +75,7 @@
 
 - name: Configure common options on managed nodes and control nodes
   hosts: "managed_nodes:control_nodes"
+  gather_facts: no
   become: yes
   roles:
     - user_accounts
@@ -93,10 +90,17 @@
 
 - name: CONFIGURE CONTROL NODE
   hosts: control_nodes
+  gather_facts: no
   become: yes
   roles:
     - control_node
-  tags: control_node
+
+- name: ADD DNS ENTRIES FOR ALL STUDENT TOWER NODES
+  hosts: control_nodes
+  become: yes
+  gather_facts: no
+  roles:
+    - { role: aws_dns, when: create_login_page is defined and create_login_page }
 
 - name: Setup Amazon S3 Website for Student Login
   hosts: localhost
@@ -115,6 +119,7 @@
 
 - name: setup f5 nodes
   hosts: f5
+  become: no
   connection: local
   gather_facts: no
   roles:
@@ -138,6 +143,7 @@
         type: csr_access
         router3_tunnel: 100
         router4_tunnel: 101
+      when: special is match("all_cisco")
 
 - name: CONFIGURE CORE ROUTERS
   hosts: core
@@ -151,6 +157,7 @@
         router1_tunnel: 100
         router2_tunnel: 101
         dci_tunnel: 200
+      when: special is match("all_cisco")
 
 - name: CONFIGURE CORE ROUTERS
   hosts: dmvpn
@@ -161,11 +168,42 @@
     - role: configure_routers
       vars:
         type: csr_hub
+      when: special is match("all_cisco")
 
-# - name: Alert the mothership
-#   hosts: localhost
-#   connection: local
-#   become: no
-#   gather_facts: no
-#   roles:
-#     - { role: tower_request, when: student_total > 9 }
+- name: CHANGE JUNIPER PASSWORD
+  hosts: access
+  gather_facts: no
+  vars:
+    ansible_connection: network_cli
+  tasks:
+    - name: Run tasks/other.yaml instead of 'main'
+      include_role:
+        name: configure_routers
+        tasks_from: juniper_default
+      when: special is match("multivendor")
+
+- name: Alert the mothership
+  hosts: localhost
+  connection: local
+  become: no
+  gather_facts: no
+  tasks:
+    - { include_role: {name: tower_request}, when: student_total > 9 }
+
+  post_tasks:
+    - name: set facts for output
+      set_fact:
+        summary_information: |
+          PROVISIONER SUMMARY
+          *******************
+          - Workshop name is {{ec2_name_prefix}}
+          - Instructor inventory is located at  {{playbook_dir}}/{{ec2_name_prefix}}/instructor_inventory.txt
+          - Private key is located at {{playbook_dir}}/{{ec2_name_prefix}}/{{ec2_name_prefix}}.pem
+          {{website_information}}
+          FAILURES
+          *******************
+          {{dns_information}}
+
+    - name: Print Summary Information
+      debug:
+        msg: "{{summary_information}}"

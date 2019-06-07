@@ -1,16 +1,16 @@
-# 演習 2 - Ansible Towerのコンフィグレーション
+# Exercise 2 - Ansible Towerのコンフィグレーション
 
 この演習を実施することにより、Ansible Towerを用いてPlaybookが実行できるようになります。
 * ブラウザで利用している言語により、この演習内のナビゲート情報は変更になります。適宜読み替えをお願い致します。
 
 ## Ansible Towerのコンフィグレーション
 
-Anabilities Towerは、マルチテナント、通知、スケジューリングなどを可能にしますが、今回のワークショップでは以下へリストする、最低限必要な主要コンセプトに焦点を絞って説明します。
+Anabilities Towerは、RestAPIでの実行、マルチテナント、通知、スケジューリングなどを可能にしますが、今回のワークショップでは以下へリストする、最低限必要な主要コンセプトに焦点を絞って説明します。
 
-* Credentials(クレデンシャル、認証情報)
-* Projects
-* Inventory
-* Job Template
+* `Credentials` 対象ノードへの認証情報を設定します。
+* `Projects` Playbook一覧を登録します。
+* `Inventory` 対象ノードの一覧を登録します。
+* `Job Template` Credential, Playbook(Project), Inventory 情報を組み合わせて実行できるジョブを作成します。
 
 ## Ansible Towerへのログインとライセンスキーのインストール
 
@@ -31,38 +31,16 @@ password:`ansibleWS`(もしくは1-install Step 6でインベントリーファ�
 
 ### Step 2:
 
-Ansible TowerへSSHでログインし、以下のコマンド(curl)を用いて暗号化されたライセンスファイルを取得してください。
+次のURL [https://www.ansible.com/workshop-license](https://www.ansible.com/workshop-license) で workshop専用のlicenseをリクエストしてください。
+通常はすぐ(1~2分)にメールでライセンスファイルが送られるはずです。
+メールに添付されているライセンスファイルを用いて、AnsibleTowerのライセンスを有効化します。
 
-```bash
-curl -O https://s3.amazonaws.com/ansible-tower-workshop-license/license
-```
-
-ダウンロードが完了したら、Ansible Vaultを用いてライセンスファイルの暗号化を解除します。
-**インストラクターから必要なパスワードが提供されます。**
-
-```bash
-ansible-vault decrypt license --ask-vault-pass
-
-...
-
-Vault password:
-```
-
-curlコマンドを用いて、Ansible Tower APIエンドポイントへライセンスをPOSTします。
-
-```bash
-curl -k https://localhost/api/v1/config/ \
-     -H 'Content-Type: application/json' \
-     -X POST \
-     --data @license \
-     --user admin:ansibleWS
-
-```
+Note: 講師がワークショップ用のライセンスを準備している場合にはそちらを利用してください。
 
 ### Step 3:
 
 Ansible TowerのUIへ戻り、 BROWSEボタンをクリックします。 ![Browse button](at_browse.png) 
-先ほどダウンロードしたライセンスファイルをAnsibleTowerへアップロードしてください。
+送付されてきたライセンスファイルをAnsibleTowerへアップロードしてください。
 
 ### Step 4:
 
@@ -81,41 +59,32 @@ Credentials(認証情報)は、Ansible Towerがジョブなどを実行する際
 
 ### Step 1:
 
-画面右上の歯車 ![Gear button](at_gear.png) のアイコンをクリックします。
+画面左の一覧からCREDENTIALS (認証情報) をクリックします。
 
 ### Step 2:
 
-一覧からCREDENTIALS (認証情報) をクリックします。
++ADD(+追加)をクリックします。 ![Add button](at_add.png)
 
 ### Step 3:
 
-+ADD(+追加)をクリックします。 ![Add button](at_add.png)
-
-### Step 4:
-
 以下の表の通りに入力し、ワークショップの中で利用する認証情報をコンフィグします。
-この作業の中でSSH private KeyをAnsibleTowerへコピーする必要があります。
-`SSH PRIVATE KEY` fieldへコピーする際には、 ````-BEGIN RSA PRIVATE KEY-```` と ````-END RSA PRIVATE KEY-```` を含むようにしてください。
 
-RSA KEYは以下のコマンドを実行することで表示することができます。
-```bash
-cat ~/.ssh/workshop-tower
-```
-NAME (名前) |Ansible Workshop Credential
+項目 | 値
 -----|---------------------------
+NAME (名前) |Ansible Workshop Credential
 DESCRIPTION (説明)|Machine credential for run job templates during workshop
 ORGANIZATION (組織)|Default
-CREDENTIAL TYPE|Machine
-USERNAME (ユーザー名)| ec2-user
-SSH PRIVATE KEY| catコマンドで表示されたRSA KEYをコピー＆ペーストしてください
-PRIVILEGE ESCALATION METHOD|Sudo
+CREDENTIAL TYPE(認証情報タイプ)|Machine
+USERNAME (ユーザー名)| studentXX(配布されたユーザ情報)
+PASSWORD| ansible(配布されたパスワード)
+PRIVILEGE ESCALATION METHOD(権限昇格方法)|Sudo
 
 
 ![Adding a Credential](at_cred_detail.png)
 
-### Step 5:
+### Step 4:
 
-SAVE(保存)をクリックします。 ![Save button](at_save.png)
+SAVE(保存)をクリックします。 ![Save button](at_save.png)
 
 ## Projectの作成
 
@@ -134,8 +103,9 @@ PROJECTS(プロジェクト)をクリックします。
 
 以下の値を利用して新規プロジェクトを作成します。
 
-NAME(名前) |Ansible Workshop Project
+項目 | 値
 -----|------------------------
+NAME(名前) |Ansible Workshop Project
 DESCRIPTION(説明)|workshop playbooks
 ORGANIZATION(組織)|Default
 SCM TYPE(SCMタイプ)|Git
@@ -159,7 +129,7 @@ SAVEをクリックします。 ![Save button](at_save.png)
 インベントリはグループごとに分離され、グループ内にJobが実行されるホストが含まれることになります。
 グループはAnsible Towerでホスト名を手動で入力したり、Ansible Towerがサポートしているクラウド・プロバイダーから入手します。
 
-nventoryは`tower-manage`コマンドを使ってAnsible Towerへインポートすることも可能で、今回のワークショップではこの方法でInventoryを追加します。
+Inventoryは`tower-manage`コマンドを使ってAnsible Towerへインポートすることも可能で、今回のワークショップではこの方法でInventoryを追加します。
 
 
 ### Step 1:
@@ -168,14 +138,15 @@ INVENTORIESをクリックします。
 
 ### Step 2:
 
-＋ADD(＋追加)をクリック、Inventory(インベントリー)を選択します ![Add button](at_add,png)
+＋ADD(＋追加)をクリック、Inventory(インベントリー)を選択します ![Add button](at_add.png)
 
 ### Step 3:
 
 以下の値を利用して、新規Inventoryを作成します。
 
-NAME(名前) |Ansible Workshop Inventory
+項目 | 値
 -----|--------------------------
+NAME(名前) |Ansible Workshop Inventory
 DESCRIPTION(説明)|workshop hosts
 ORGANIZATION(組織)|Default
 
@@ -187,20 +158,12 @@ SAVE(保存)をクリックします。 ![Save button](at_save.png)
 
 ### Step 5:
 
-SSHを利用し、コントロールノードへログインします。
+SSHを利用し、Ansibleコントロールノードへログインします。
 
-Using ssh, login to your control node, if by any chance you closed the wetty browser window.  Remember to replace *workshopname* with your workshop name, and *#* with your student number.
-
-```bash
-https://workshopname.tower.#.redhatgov.io:8888/wetty/ssh/ec2-user
-```
-
-### Step 6:
-
-`tower-manage`　コマンドを利用して既存のインベントリファイルをAnsible Towerへインポートします。（_必ず<username>を自身のユーザ名で置き換えてください_)
+`tower-manage`　コマンドを利用して既存のインベントリファイルをAnsible Towerへインポートします。（以下のコマンドの_<location of you inventory>_をAnsibleEngineの演習で利用していたInventoryファイルのパスへ置き換えてください。)
 
 ```
-sudo tower-manage inventory_import --source=/home/<username>/hosts --inventory-name="Ansible Workshop Inventory"
+sudo tower-manage inventory_import --source=<location of you inventory> --inventory-name="Ansible Workshop Inventory"
 ```
 
 以下のような出力になるはずです:

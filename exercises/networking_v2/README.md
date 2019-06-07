@@ -4,13 +4,23 @@ This content is a multi-purpose toolkit for effectively demonstrating Ansible's 
 
 ## Presentation
 Want the Presentation Deck?  Its right here:
-[Ansible Networking Linklight Deck](../../decks/ansible-networking_v2.html)
+[Ansible Networking Linklight Deck](../../decks/ansible_network.pdf)
 
-## Ansible Engine Networking Exercises
+## Ansible Network Automation Exercises
 
-- [Lab 01](labs/lab01-network-facts/): Using Ansible to gather data from network devices
-- [Lab 02](labs/lab02-config-management/): Using Ansible to configure, backup and restore
-- [Lab 03](labs/lab03-templating/): Using Ansible for templating as well as utilizing parsers
+### Section 01 - Using Ansible to gather data from network devices
+- [Exercise 1.0 - Exploring the lab environment](./exercises/1-0-explore)
+- [Exercise 1.1 - Writing your first playbook](./exercises/1-1-first-playbook)
+- [Exercise 1.2 - Module documentation, Registering output & tags](./exercises/1-2-playbook-basics)
+
+### Section 02 - Using Ansible to configure, backup and restore
+- [Exercise 2.0 - Updating the router configurations using Ansible](./exercises/2-0-config)
+- [Exercise 2.1 - Backing up the router configuration](./exercises/2-1-backup/)
+- [Exercise 2.2 - Using Ansible to restore the backed up configuration](./exercises/2-2-restore)
+
+### Section 03 - Using Ansible to parse information for reporting
+- [Exercise 3.0 - An introduction to templating with Jinja2](./exercises/3-0-templates)
+- [Exercise 3.1 - Building dynamic documentation using the command parser](./exercises/3-1-parser/)
 
 ## Network Diagram
 ![Red Hat Ansible Automation](../../images/network_diagram.png)
@@ -22,12 +32,6 @@ Want the Presentation Deck?  Its right here:
  - [Network Automation GitHub Repo](https://github.com/network-automation)
 
 ---
-![Red Hat Ansible Automation](../../images/rh-ansible-automation.png)
+![Red Hat Ansible Automation](../../images/networkautomation.png)
 
-Red Hat® Ansible® Automation consists of  three products:
-
-- [Red Hat® Ansible® Tower](https://www.ansible.com/tower): Built for operationalizing and scaling automation, managing complex deployments and speeding up productivity. Extend the power of Ansible Tower with Workflows and Surveys to streamline jobs and simple tools to share solutions with your team.
-
-- [Red Hat® Ansible® Engine](https://www.ansible.com/ansible-engine): a fully supported product built on the foundational capabilities of the Ansible project. Also provides support for select modules including Infoblox.
-
-- [Red Hat® Ansible® Network Automation](https://www.ansible.com/networking): provides support for select networking modules from Arista (EOS), Cisco (IOS, IOS XR, NX-OS), Juniper (JunOS), Open vSwitch, and VyOS. Includes Ansible Tower, Ansible Engine, and curated content specifically for network use cases.
+- [Red Hat® Ansible® Network Automation](https://www.ansible.com/networking): automate networking devices from Arista (EOS), Cisco (IOS, IOS XR, NX-OS), Juniper (JunOS), Open vSwitch, and VyOS and many more! Includes [Ansible Tower](https://www.ansible.com/tower) curated content specifically for network use cases.

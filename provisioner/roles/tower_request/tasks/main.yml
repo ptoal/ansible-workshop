@@ -1,6 +1,6 @@
 ---
 - set_fact:
-    workshop_type: "Networking"
+    workshop_type: "networking"
   when:
     - networking is defined
     - networking
@@ -14,17 +14,18 @@
 - set_fact:
     workshop_type: "Linux"
   when:
-    - f5workshop is not defined
-    - networking is not defined
+    - workshop_type is not match("F5")
+    - workshop_type is not match("networking")
 
 - name: execute a command with tower
   uri:
-    url: https://54.144.88.64/api/v2/job_templates/22/launch/
+    url: https://ansible.rhdemo.io/api/v2/job_templates/22/launch/
     validate_certs: no
     method: POST
     user: public
     password: public
     status_code: [200, 201]
+    force_basic_auth: yes
     body:
       extra_vars:
         ec2_name_prefix: "{{ ec2_name_prefix }}"

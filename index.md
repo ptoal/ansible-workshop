@@ -6,30 +6,28 @@ This is the [Linklight Github project](https://github.com/network-automation/lin
 # Network Automation
 These workshops are focused on networking platforms like Arista, Cisco, Juniper and F5.
 
-## Ansible Networking Decks
+## Presentation Decks
 
-- [Ansible Networking *Deprecated](decks/ansible-networking.html)
-- [Ansible Networking-v2](decks/ansible_network_v2.html)
-- [Ansible F5 Workshop](decks/ansible_f5.pdf)
+- [Ansible Network Deck](decks/ansible_network.pdf)
+- [Ansible F5 Deck](decks/ansible_f5.pdf)
 
-## Ansible Networking Workshops
+## Exercises
 
-- [Ansible Networking Workshop *Deprecated](exercises/networking/README.md)
-- [Ansible Networking-v2 Workshop](exercises/networking_v2/README.md)  
-- [Ansible F5 Workshop](exercises/ansible_f5/README.md)  
+- [Ansible Network Exercises](exercises/networking_v2/README.md)  
+- [Ansible F5 Exercises](exercises/ansible_f5/README.md)  
 
 # Server Automation
 These workshops are focused on automating Linux platforms like RHEL (Red Hat Enterprise Linux)
 
-## Ansible Server Decks
+## Presentation Decks
 
 - [Ansible Essentials - Deck](decks/ansible-essentials.html)
-- [Intro to Ansible Tower - Deck](decks/intro-to-ansible-tower.html)
+- [Intro to Ansible Tower - Deck](decks/tower_intro.pdf)
 
-## Ansible Server Workshops
+## Exercises
 
-- [Ansible Engine Workshop](exercises/ansible_engine/README.md)  
-- [Ansible Tower Workshop](exercises/ansible_tower/README.md)  
+- [Ansible Engine Exercises](exercises/ansible_engine/README.md)  
+- [Ansible Tower Exercises](exercises/ansible_tower/README.md)  
 
 # Slack
 Do you like Slack?  So do we! [click to join our ansiblenetwork slack](https://join.slack.com/t/ansiblenetwork/shared_invite/enQtMzEyMTcxMTE5NjM3LWIyMmQ4YzNhYTA4MjA2OTRhZDQzMTZkNWZlN2E3NzhhMWQ5ZTdmNmViNjk2M2JkYzJjODhjMjVjMGUxZjc2MWE)
@@ -41,5 +39,3 @@ Join our [mailing list](https://www.redhat.com/mailman/listinfo/linklight)
 
  ---
 ![Red Hat Ansible Automation](images/rh-ansible-automation.png)
-
-Red Hat® Ansible® Network Automation provides support for select networking modules from Arista (EOS), Cisco (IOS, IOS XR, NX-OS), Juniper (Junos OS), Open vSwitch, and VyOS.

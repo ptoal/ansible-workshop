@@ -1,7 +1,7 @@
 ## This is needed for sshpass
 - name: Install EPEL
   yum:
-    name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+    name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"
     state: present
 
 - name: Install base packages
@@ -15,8 +15,35 @@
       - sshpass
       - tmux
       - python-pip
-      - ansible
+      - https://releases.ansible.com/ansible/rpm/release/epel-7-x86_64/ansible-2.7.0-1.el7.ans.noarch.rpm
+    state: present
+  retries: 10
+  delay: 5
+
+- name: UPGRADE PIP
+  pip:
+    name: pip
     state: latest
+
+- name: UPGRADE SETUPTOOLS
+  pip:
+    name: setuptools
+    state: latest
+
+- name: Install base packages for netaddr
+  yum:
+    name:
+      - python-netaddr
+    state: latest
+  when: not f5workshop
+
+- name: install ncclient for juniper devices (NETWORK AUTOMATION MODE)
+  become: yes
+  pip:
+    name:
+      - ncclient
+    state: latest
+  when: networking
 
 - name: block for f5workshop
   block:
@@ -74,17 +101,16 @@
     user: admin
     password: "{{admin_password}}"
     validate_certs: False
+    force_basic_auth: yes
   register: check_tower
   ignore_errors: yes
   when:
-    - ansible_os_family == 'RedHat'
     - towerinstall is defined
     - towerinstall
 
 - name: install tower if knob is set
   include_tasks: "tower.yml"
   when:
-    - ansible_os_family == 'RedHat'
     - towerinstall is defined
     - towerinstall
     - check_tower is failed
@@ -95,8 +121,10 @@
     line: '    "eula_accepted": true,'
     insertbefore: '"company_name"'
     state: present
+  delegate_to: localhost
+  run_once: true
+  become: no
   when:
-    - ansible_os_family == 'RedHat'
     - autolicense is defined
     - autolicense
     - towerinstall is defined
@@ -105,7 +133,7 @@
 
 - name: Post license key
   uri:
-    url: https://localhost/api/v2/config/
+    url: https://{{ansible_host}}/api/v2/config/
     method: POST
     user: admin
     password: "{{admin_password}}"
@@ -113,9 +141,8 @@
     #| default(lookup('file',playbook_dir+'/tower_license.json')) }}"
     body_format: json
     validate_certs: False
+    force_basic_auth: yes
   when:
-    - towerinstall is defined
-    - towerinstall
     - autolicense is defined
     - autolicense
 

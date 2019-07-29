@@ -117,7 +117,7 @@
   gather_facts: no
   roles:
     - { role: aws_dns, when: create_login_page is defined and create_login_page and dme_dns is not defined}
-    - { role: dnsmadeeasy, when: create_login_page is defined and create_login_page and dme_dns is not defined}
+    - { role: dnsmadeeasy, when: create_login_page is defined and create_login_page and dme_dns is defined}
   tags: control_node
 
 - name: Setup Amazon S3 Website for Student Login

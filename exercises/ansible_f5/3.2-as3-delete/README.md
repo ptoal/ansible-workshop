@@ -42,7 +42,6 @@ Enter the following play definition into `delete.yml`:
 ## Step 3
 
 **Append** the following to the delete.yml Playbook.  
-{% raw %}
 ```
   tasks:
 
@@ -59,7 +58,6 @@ Enter the following play definition into `delete.yml`:
       validate_certs: no
     delegate_to: localhost
 ```
-{% endraw %}
 
 There is only three parameters that have changed from the previous exercise.
 - `url` has changed.  Instead of ending with `declare` it now ends with the tenant name, which is `WorkshopExample`.
@@ -93,7 +91,7 @@ f5                         : ok=1    changed=0    unreachable=0    failed=0
 
 # Solution
 
-The finished Ansible Playbook is provided here for an Answer key.  Click here: [delete.yml](https://github.com/network-automation/linklight/blob/master/exercises/ansible_f5/3.2-as3-delete/delete.yml).
+The finished Ansible Playbook is provided here for an Answer key.  Click here: [delete.yml](https://github.com/network-automation/linklight/blob/master/exercises/ansible_f5/3.2-as3-delete/delete.yaml).
 
 Login to the web UI and make sure the `Partition` is removed.
 

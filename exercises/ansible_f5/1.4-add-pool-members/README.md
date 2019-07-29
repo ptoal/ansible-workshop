@@ -44,7 +44,6 @@ Enter the following play definition into `bigip-pool-members.yml`:
 
 Next, add the first `task`. This task will use the `bigip_pool_member` module configure the two RHEL web servers as nodes on the BIG-IP F5 load balancer.
 
-{% raw %}
 ``` yaml
 - name: BIG-IP SETUP
   hosts: lb
@@ -67,7 +66,6 @@ Next, add the first `task`. This task will use the `bigip_pool_member` module co
       validate_certs: "no"
     loop: "{{ groups['webservers'] }}"
 ```
-{% endraw %}
 
 
 Explanation of each line within the task:
@@ -115,7 +113,6 @@ f5                         : ok=1    changed=1    unreachable=0    failed=0
 
 Let's use the bigip_device_facts to collect the pool members on BIG-IP. [JSON query](https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#json-query-filter) is a powerful filter that can be used. Please go through before proceeding
 
-{% raw %}
 ```
 [student1@ansible ~]$ nano display-pool-members.yml
 ```
@@ -143,17 +140,15 @@ Enter the following:
 
   - name: "View complete output"
     debug: "msg={{bigip_device_facts}}"
-
+    
   - name: "Show members belonging to pool"
     debug: "msg={{item}}"
     loop: "{{bigip_device_facts.ltm_pools | json_query(query_string)}}"
     vars:
      query_string: "[?name=='http_pool'].members[*].name[]"
 ```
-{% endraw %}
-
 - `vars:` in the module is defining a variable query_string to be used within the module itself
-- `query_String` will have the name of all members from pool name 'http_pool'. query_string is defined to make it easier to read the
+- `query_String` will have the name of all members from pool name 'http_pool'. query_string is defined to make it easier to read the 
    entire json string
 
 Execute the playbook
@@ -192,7 +187,7 @@ Login to the F5 with your web browser to see what was configured.  Grab the IP i
 
 Login information for the BIG-IP:
 - username: admin
-- password: **provided by instructor** defaults to ansible
+- password: admin
 
 The pool will now show two members (host1 and host2).  Click on Local Traffic-> then click on Pools.  Click on http_pool to get more granular information.  Click on the Members tab in the middle to list all the Members.
 ![f5members](poolmembers.png)

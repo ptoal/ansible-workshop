@@ -6,16 +6,22 @@
 
 - name: CREATE S3 BUCKET
   s3_bucket:
-    name: "{{ec2_name_prefix|lower}}.{{workshop_dns_zone|lower}}"
+    name: "{{ ec2_name_prefix|lower }}.{{ workshop_dns_zone|lower }}"
     state: "{{ s3_state }}"
-    region: "{{ec2_region}}"
+    region: "{{ ec2_region }}"
     force: yes
+  retries: 4
+  delay: 15
+  register: s3_result
+  until: 
+    - s3_result.failed == false
+    - s3_result.changed == true
 
 - name: ENABLE WEB HOSTING
   s3_website:
-   name: "{{ec2_name_prefix|lower}}.{{workshop_dns_zone|lower}}"
+   name: "{{ ec2_name_prefix|lower }}.{{ workshop_dns_zone|lower }}"
    state: "{{ s3_state }}"
-   region: "{{ec2_region}}"
+   region: "{{ ec2_region }}"
    suffix: "{{ ec2_name_prefix|lower }}-index.html"
   register: s3_site
   when: s3_state == 'present'
@@ -44,9 +50,9 @@
 
 - name: PUT STUDENT WEBPAGE
   s3_sync:
-    bucket: "{{ec2_name_prefix|lower}}.{{workshop_dns_zone}}"
-    region: "{{ec2_region}}"
-    file_root: "{{ playbook_dir }}/{{ec2_name_prefix}}"
+    bucket: "{{ ec2_name_prefix|lower }}.{{ workshop_dns_zone }}"
+    region: "{{ ec2_region }}"
+    file_root: "{{ playbook_dir }}/{{ ec2_name_prefix }}"
     mime_map:
       .html: text/html
     permission: public-read
@@ -56,4 +62,4 @@
 - name: SET WEBSITE INFORMATION VARIABLE
   set_fact:
     website_information: |
-      - Website created at http://{{ec2_name_prefix|lower}}.{{workshop_dns_zone|lower}}
+      - Website created at http://{{ ec2_name_prefix|lower }}.{{ workshop_dns_zone|lower }}

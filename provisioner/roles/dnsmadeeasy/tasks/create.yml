@@ -8,7 +8,7 @@
     record_type: A
     record_name: "{{username}}.{{ ec2_name_prefix | lower }}"
     state: "{{ s3_state }}"
-    value: "{{ ansible_host }}"
+    record_value: "{{ ansible_host }}"
   delegate_to: localhost
 
 - name: CERTBOT FOR TOWER

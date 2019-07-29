@@ -116,7 +116,7 @@
   become: yes
   gather_facts: no
   roles:
-    - { role: aws_dns, when: create_login_page is defined and create_login_page and dme_account_key is not defined}
+    - { role: aws_dns, when: create_login_page is defined and create_login_page and not dme_account_key is defined}
     - { role: dnsmadeeasy, when: create_login_page is defined and create_login_page and dme_account_key is defined}
   tags: control_node
 

@@ -1,0 +1,16 @@
+- name: DNS FOR STUDENT WEBPAGE FOR US-EAST-1
+  become: False
+  dnsmadeeasy:
+    account_key: "{{dme_account_key}}"
+    account_secret: "{{dme_account_secret}}"
+    domain: "{{workshop_dns_zone}}"
+    record_ttl: "600"
+    record_type: A
+    record_name: "{{username}}.{{ ec2_name_prefix | lower }}"
+    state: "{{ s3_state }}"
+    value: "{{ ansible_host }}"
+  delegate_to: localhost
+
+- name: CERTBOT FOR TOWER
+  include_tasks: "tower.yml"
+  when: towerinstall|bool

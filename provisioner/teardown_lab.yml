@@ -13,7 +13,8 @@
   tasks:
     - { include_role: {name: manage_ec2_instances}}
     - { include_role: {name: aws_workshop_login_page}, when: create_login_page is defined and create_login_page }
-    - { include_role: {name: aws_dns}, when: create_login_page is defined and create_login_page }
+    - { role: aws_dns, when: create_login_page is defined and create_login_page and dme_dns is not defined}
+    - { role: dnsmadeeasy, when: create_login_page is defined and create_login_page and dme_dns is not defined}
 
     - name: Remove workshop local files
       file:

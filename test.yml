@@ -1,0 +1,13 @@
+- hosts: localhost
+  tasks:
+  - name: DME - DNS FOR STUDENT WEBPAGE FOR US-EAST-1
+    dnsmadeeasy:
+      account_key: "f3888193-8a4b-4dc2-8a6f-eefe2f4a14e9"
+      account_secret: "6cfc367d-69a5-4ba5-b34a-0a78c9127f15"
+      domain: "rhdemo.ca."
+      record_ttl: "600"
+      record_type: "CNAME"
+      record_name: "tor"
+      state: present
+      record_value: "tor.rhdemo.ca.s3-website-us-east-1.amazonaws.com"
+    delegate_to: localhost

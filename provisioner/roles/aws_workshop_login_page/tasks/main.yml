@@ -26,7 +26,7 @@
    suffix: "{{ ec2_name_prefix|lower }}-index.html"
   register: s3_site
   when: s3_state == 'present'
-
+# This is a test comment
 # - name: DME - DNS FOR STUDENT WEBPAGE FOR US-EAST-1
 #   dnsmadeeasy:
 #     account_key: "{{dme_account_key}}"

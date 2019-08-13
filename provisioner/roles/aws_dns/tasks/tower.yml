@@ -33,22 +33,24 @@
   delegate_facts: true
   when: issue_cert is failed
 
-- name: MOVE SSL KEY
-  copy:
-    remote_src: True
-    src: "/etc/letsencrypt/live/{{username}}.{{ec2_name_prefix|lower}}.{{workshop_dns_zone}}/privkey.pem"
-    dest: /etc/tower/tower.key
+- name: If issue cert works install it on tower
+  block:
+    - name: MOVE SSL KEY
+      copy:
+        remote_src: True
+        src: "/etc/letsencrypt/live/{{username}}.{{ec2_name_prefix|lower}}.{{workshop_dns_zone}}/privkey.pem"
+        dest: /etc/tower/tower.key
+
+    - name: GRAB SPECIFIC SSL CERT
+      slurp:
+        src: "/etc/letsencrypt/live/{{username}}.{{ec2_name_prefix|lower}}.{{workshop_dns_zone}}/cert.pem"
+      register: intermediate_cert
+
+    - name: COMBINE SPECIFIC AND INTERMEDIATE CERT
+      template:
+        src: combined_cert.j2
+        dest: /etc/tower/tower.cert
   when: issue_cert is not failed
-
-- name: GRAB SPECIFIC SSL CERT
-  slurp:
-    src: "/etc/letsencrypt/live/{{username}}.{{ec2_name_prefix|lower}}.{{workshop_dns_zone}}/cert.pem"
-  register: intermediate_cert
-
-- name: COMBINE SPECIFIC AND INTERMEDIATE CERT
-  template:
-    src: combined_cert.j2
-    dest: /etc/tower/tower.cert
 
 - name: TURN ON TOWER
   shell: ansible-tower-service start

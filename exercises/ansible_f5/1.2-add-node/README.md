@@ -1,5 +1,7 @@
 # Exercise 1.2 - Adding nodes to F5 BIG-IP
 
+**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png) [日本語](README.ja.md).
+
 ## Table of Contents
 
 - [Objective](#objective)
@@ -44,7 +46,7 @@ Enter the following play definition into `bigip-node.yml`:
 
 Next, add the first `task`. This task will use the `bigip_node` module configure the two RHEL web servers as nodes on the BIG-IP F5 load balancer.
 
-{% raw %}
+<!-- {% raw %} -->
 ``` yaml
 ---
 - name: BIG-IP SETUP
@@ -65,7 +67,7 @@ Next, add the first `task`. This task will use the `bigip_node` module configure
       validate_certs: "no"
     loop: "{{ groups['webservers'] }}"
 ```
-{% endraw %}
+<!-- {% endraw %} -->
 
 >A [loop](https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html) will repeat a task on a list provided to the task.  In this case it will loop twice, once for each of the two web servers.
 

@@ -1,5 +1,7 @@
 # Exercise 1.3 - Adding a load balancing pool
 
+**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png) [日本語](README.ja.md).
+
 ## Table of Contents
 
 - [Objective](#objective)
@@ -44,7 +46,7 @@ Enter the following play definition into `bigip-pool.yml`:
 
 Next, add the first `task`. This task will use the `bigip_pool` module configure the two RHEL web servers as nodes on the BIG-IP F5 load balancer.
 
-{% raw %}
+<!-- {% raw %} -->
 
 ``` yaml
 ---
@@ -68,7 +70,7 @@ Next, add the first `task`. This task will use the `bigip_pool` module configure
       validate_certs: "no"
 ```
 
-{% endraw %}
+<!-- {% endraw %} -->
 
 - `name: CREATE POOL` is a user defined description that will display in the terminal output.
 - `bigip_pool:` tells the task which module to use.
@@ -116,7 +118,7 @@ Login to the F5 with your web browser to see what was configured.  Grab the IP i
 
 Login information for the BIG-IP:
 - username: admin
-- password: admin
+- password: **provided by instructor, defaults to ansible**
 
 The load balancer pool can be found by navigating the menu on the left.  Click on Local Traffic-> then click on Pools.
 ![f5pool](pool.png)

@@ -13,7 +13,7 @@
   retries: 4
   delay: 15
   register: s3_result
-  until: 
+  until:
     - s3_result.failed == false
     # This logic is not idempotent.
     - s3_result.changed == true

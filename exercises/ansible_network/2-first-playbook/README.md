@@ -1,5 +1,7 @@
 # Exercise 2 - First Ansible Playbook
 
+**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png) [日本語](README.ja.md).
+
 ## Table of Contents
 
 - [Objective](#objective)
@@ -24,6 +26,8 @@ This exercise will cover
 Navigate to the `networking-workshop` directory if you are not already there.
 
 ```bash
+[student1@ansible ~]$ cd ~/networking-workshop/
+[student1@ansible networking-workshop]$
 [student1@ansible networking-workshop]$ pwd
 /home/student1/networking-workshop
 ```
@@ -36,7 +40,6 @@ Examine the provided Ansible Playbook named `playbook.yml`.  Feel free to use yo
 - name: snmp ro/rw string configuration
   hosts: cisco
   gather_facts: no
-  connection: network_cli
 
   tasks:
 
@@ -134,7 +137,6 @@ The Ansible Playbook will now look like this:
 - name: snmp ro/rw string configuration
   hosts: cisco
   gather_facts: no
-  connection: network_cli
 
   tasks:
 
@@ -224,7 +226,7 @@ snmp-server community ansible-test RO
 
 # Solution
 
-The finished Ansible Playbook is provided here for an answer key: [playbook.yml](playbook.yml).
+The finished Ansible Playbook is provided here for an answer key: [playbook.yml](../playbook.yml).
 
 ---
 

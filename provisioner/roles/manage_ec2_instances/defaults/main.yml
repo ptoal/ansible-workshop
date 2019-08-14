@@ -24,7 +24,7 @@ rhel: "rhel7"
 # additional info needed by AWS ec2 modules
 ec2_info:
   juniper:
-    size: c5.xlarge
+    size: c5.large
     ami: "{{juniper_ami | default(omit)}}"
     os: junos
     username: ec2-user

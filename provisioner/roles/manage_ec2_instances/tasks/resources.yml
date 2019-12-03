@@ -427,7 +427,6 @@
     src: "{{ playbook_dir }}/{{ec2_name_prefix}}/{{ec2_name_prefix}}-private.pem"
     encrypt: true
     region: "{{ ec2_region }}"
-    file_root: "{{ playbook_dir }}/{{ ec2_name_prefix }}"
   when: create_key.changed
 
 - name: Save Private key from S3 Bucket when not generating it

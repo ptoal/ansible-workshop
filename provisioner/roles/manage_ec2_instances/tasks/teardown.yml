@@ -312,6 +312,7 @@
         region: "{{ ec2_region }}"
       retries: 4
       delay: 15
+      force: yes
       register: s3_result
       until:
         - s3_result.failed == false

@@ -24,7 +24,7 @@
     win_get_url:
       url: https://s3.amazonaws.com/linklight.securityautomation/Check_Point_SmartConsole_R80_30_jumbo_HF_B36_Win.exe
       dest: C:\Temp\SmartConsole.exe
-      checksum: 424bd9ccac118c5a9c9e006b89f21d0a8b4f944b
+      checksum: b409a8a637f0437f49f7cc2abc0b7325f6047d14
       force: yes
     when: not smartconsole.stat.exists
     register: win_get_smartconsole

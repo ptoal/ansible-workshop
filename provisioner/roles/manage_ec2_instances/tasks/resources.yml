@@ -439,6 +439,11 @@
     region: "{{ ec2_region }}"
   when: not create_key.changed
 
+- name: Ensure key file has proper permissions
+  file:
+    dest: "{{ playbook_dir }}/{{ec2_name_prefix}}/{{ec2_name_prefix}}-private.pem"
+    mode: 0600
+    
 - name: debugging all variables for ec2 instance creation VPC-1
   debug:
     msg:

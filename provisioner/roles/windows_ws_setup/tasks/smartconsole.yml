@@ -22,7 +22,7 @@
 
   - name: Download SmartConsole to specified path only if modified
     win_get_url:
-      url: https://s3.amazonaws.com/linklight.securityautomation/Check_Point_SmartConsole_R80_20_jumbo_HF_B055_Win.exe
+      url: https://s3.amazonaws.com/linklight.securityautomation/Check_Point_SmartConsole_R80_30_jumbo_HF_B36_Win.exe
       dest: C:\Temp\SmartConsole.exe
       checksum: 424bd9ccac118c5a9c9e006b89f21d0a8b4f944b
       force: yes

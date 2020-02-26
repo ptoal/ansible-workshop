@@ -119,11 +119,11 @@
     - set_fact:
         tower_license: "{{ tower_license_data|from_json }}"
         when: tower_license is not defined
-        
+
     - assert:
         that: "{{ tower_license.eula_accepted }}"
         fail_msg: "EULA must be accepted in license data (eula_accepted: true)"
-        
+
     - assert:
         that: ansible_date_time.epoch|int < tower_license.license_date|int
         fail_msg: "Ansible Tower License expired.  Please provide valid license."

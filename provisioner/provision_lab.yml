@@ -118,6 +118,7 @@
 
     - set_fact:
         tower_license: "{{ tower_license_data|from_json }}"
+        when: tower_license is not defined
         
     - assert:
         that: "{{ tower_license.eula_accepted }}"

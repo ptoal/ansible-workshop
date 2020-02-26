@@ -81,12 +81,17 @@
     - debug:
         var: stat_result
     - fail:
-        msg: "autolicense is turned on, but we need a license located at {{playbook_dir}}/tower_license.json"
+        msg: "autolicense is turned on, but we need tower_license_data in extra_vars or a license located at {{playbook_dir}}/tower_license.json"
       when:
         - not stat_result.stat.exists
+    - set_fact:
+        tower_license: "{{ lookup('file',playbook_dir+'/tower_license.json'))|from_json|combine({'eula_accepted':true}) }}"
   when:
-    - towerinstall is defined
-    - towerinstall
+    - autolicense|bool == True
+    - tower_license_data is not defined
+
+- set_fact:
+    tower_license: "{{ tower_license_data|from_json|combine({'eula_accepted':true}) }}"
 
 - name: install product_demos collection
   shell: "{{item}}"

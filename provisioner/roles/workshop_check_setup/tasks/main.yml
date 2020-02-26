@@ -93,6 +93,11 @@
 - set_fact:
     tower_license: "{{ tower_license_data|from_json|combine({'eula_accepted':true}) }}"
 
+- name: Ensure tower license is not expired
+  assert:
+    that: ansible_date_time.epoch|int < tower_license.license_date|int
+    fail_msg: "Ansible Tower License expired.  Please provide valid license."
+
 - name: install product_demos collection
   shell: "{{item}}"
   loop:

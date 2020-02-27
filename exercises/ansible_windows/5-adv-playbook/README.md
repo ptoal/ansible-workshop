@@ -89,6 +89,7 @@ Step 4:
 Add a new task called **install IIS**. After writing the playbook, click
 `File` &gt; `Save` to save your changes.
 
+<!-- {% raw %} -->
 ```yaml
       tasks:
         - name: Install IIS
@@ -111,6 +112,7 @@ Add a new task called **install IIS**. After writing the playbook, click
           with_items: "{{ iis_sites }}"
           notify: restart iis service
 ```
+<!-- {% endraw %} -->
 
 ![site.yml part 1](images/5-vscode-iis-yaml.png)
 
@@ -160,6 +162,7 @@ Type `index.html.j2` and hit enter.
 You should now have an editor open in the right pane that can be used
 for creating your template. Enter the following details:
 
+<!-- {% raw %} -->
 ```html
     <html>
     <body>
@@ -170,6 +173,7 @@ for creating your template. Enter the following details:
     </body>
     </html>
 ```
+<!-- {% endraw %} -->
 
 ![index.html template](images/5-vscode-template.png)
 
@@ -180,6 +184,7 @@ Edit back your playbook, `site.yml`, by opening your firewall ports and
 writing the template. Use single quotes for `win_template` in order to
 not escape the forward slash.
 
+<!-- {% raw %} -->
 ```yaml
         - name: Open port for site on the firewall
           win_firewall_rule:
@@ -205,6 +210,7 @@ not escape the forward slash.
             - http://{{ ansible_host }}:8080
             - http://{{ ansible_host }}:8081
 ```
+<!-- {% endraw %} -->
 
 > **Note**
 >
@@ -293,6 +299,7 @@ Now let’s take a second look to make sure everything looks the way you
 intended. If not, now is the time for us to fix it up. The figure below
 shows line counts and spacing.
 
+<!-- {% raw %} -->
 ```yaml
     ---
     - hosts: windows
@@ -359,6 +366,7 @@ shows line counts and spacing.
             state: restarted
             start_mode: auto
 ```
+<!-- {% endraw %} -->
 
 Section 5: Create your Job Template
 ===================================

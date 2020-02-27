@@ -44,6 +44,7 @@ Updates. Typically you would have even more tasks to accomplish the
 entire update process. This might entail creating service tickets,
 creating snapshots, or disabling monitoring.
 
+<!-- {% raw %} -->
 ```yaml
     ---
     - hosts: windows
@@ -54,6 +55,7 @@ creating snapshots, or disabling monitoring.
             category_names: "{{ categories | default(omit) }}"
             reboot: '{{ reboot_server | default(yes) }}'
 ```
+<!-- {% endraw %} -->
 
 > **Note**
 >

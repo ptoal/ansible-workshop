@@ -172,6 +172,7 @@ Step 6:
 
 Add tasks to your role in `roles\iis_simple\tasks\main.yml`.
 
+<!-- {% raw %} -->
 ```yaml
     ---
     # tasks file for iis_simple
@@ -220,6 +221,7 @@ Add tasks to your role in `roles\iis_simple\tasks\main.yml`.
         - http://{{ ansible_host }}:8080
         - http://{{ ansible_host }}:8081
 ```
+<!-- {% endraw %} -->
 
 Step 7:
 -------
@@ -229,6 +231,7 @@ Add your index.html template.
 Right-click `roles\iis_simple\templates` and create a new file called
 `index.html.j2` with the following content:
 
+<!-- {% raw %} -->
 ```html
     <html>
     <body>
@@ -239,6 +242,7 @@ Right-click `roles\iis_simple\templates` and create a new file called
     </body>
     </html>
 ```
+<!-- {% endraw %} -->
 
 Now, remember we still have a *templates* folder at the base level of
 this playbook, so we will delete that now. Right click it and Select

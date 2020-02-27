@@ -97,6 +97,7 @@ spaces for indentation. Tabs are not valid YAML syntax.
 If you want to see the entire playbook for reference, skip to the bottom
 of this exercise.
 
+<!-- {% raw %} -->
 ```yaml
       tasks:
        - name: install iis
@@ -118,6 +119,7 @@ of this exercise.
          debug:
            msg: "http://{{ ansible_host }}"
 ```
+<!-- {% endraw %} -->
 
 - `tasks:` This denotes that one or more tasks are about to be defined
 
@@ -151,13 +153,13 @@ of this exercise.
   here](http://docs.ansible.com/ansible/latest/win_service_module.html)
   to learn more about the **`win_service`** module.
 
-<!-- -->
-
+<!-- {% raw %} -->
 ```yaml
     win_copy:
       content: "{{ iis_test_message }}"
       dest: C:\Inetpub\wwwroot\index.html
 ```
+<!-- {% endraw %} -->
 
 - In this task, we use the win\_copy module to create a file with
   specific contents in it. We are getting a little more complex here
@@ -165,15 +167,14 @@ of this exercise.
   the variables just yet, since they will be showcased in a later
   lesson.
 
-<!-- -->
-
+<!-- {% raw %} -->
 ```yaml
     debug:
       msg: http://{{ ansible_host }}
 ```
+<!-- {% endraw %} -->
 
 - This task uses the `debug` module to post a message at the end of playbook execution. This particular message prints out `http://` + the variable name that contains the IP address of the host we're running the playbook on (our Windows IIS server)
-
 
 Section 4: Saving your Playbook
 ===============================
@@ -229,6 +230,7 @@ You are ready to automate!
 > completed playbook should look like this. Take note of the spacing and
 > alignment.
 
+<!-- {% raw %} -->
 ```yaml
     ---
     - name: install the iis web service
@@ -254,3 +256,4 @@ You are ready to automate!
           debug:
             msg: http://{{ ansible_host }}
 ```
+<!-- {% endraw %} -->

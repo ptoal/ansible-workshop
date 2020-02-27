@@ -72,9 +72,11 @@ Section 2: Defining Your Play
 Now that you are editing `install_iis.yml`, let’s begin by defining the
 play and then understanding what each line accomplishes
 
+```yaml
     ---
     - name: install the iis web service
       hosts: windows
+```
 
 - `---` Defines the beginning of YAML
 
@@ -95,6 +97,7 @@ spaces for indentation. Tabs are not valid YAML syntax.
 If you want to see the entire playbook for reference, skip to the bottom
 of this exercise.
 
+```yaml
       tasks:
        - name: install iis
          win_feature:
@@ -108,12 +111,13 @@ of this exercise.
 
        - name: Create website index.html
          win_copy:
-           content: "\{\{ iis_test_message \}\}"
+           content: "{{ iis_test_message }}"
            dest: C:\Inetpub\wwwroot\index.html
 
        - name: Show website address
          debug:
-           msg: "http://\{\{ ansible_host \}\}"
+           msg: "http://{{ ansible_host }}"
+```
 
 - `tasks:` This denotes that one or more tasks are about to be defined
 
@@ -123,9 +127,11 @@ of this exercise.
 
 <!-- -->
 
+```yaml
     win_feature:
       name: Web-Server
       state: present
+```
 
 - These three lines are calling the Ansible module **`win_feature`** to
   install the IIS Web Server. [Click
@@ -133,10 +139,11 @@ of this exercise.
   to see all options for the `win_feature` module.
 
 <!-- -->
-
+```yaml
     win_service:
       name: W3Svc
       state: started
+```
 
 - The next few lines are using the ansible module **win\_service** to
   start the IIS service. The `win_service` module is the preferred way
@@ -146,9 +153,11 @@ of this exercise.
 
 <!-- -->
 
+```yaml
     win_copy:
       content: "{{ iis_test_message }}"
       dest: C:\Inetpub\wwwroot\index.html
+```
 
 - In this task, we use the win\_copy module to create a file with
   specific contents in it. We are getting a little more complex here
@@ -158,8 +167,10 @@ of this exercise.
 
 <!-- -->
 
+```yaml
     debug:
       msg: http://{{ ansible_host }}
+```
 
 - This task uses the `debug` module to post a message at the end of playbook execution. This particular message prints out `http://` + the variable name that contains the IP address of the host we're running the playbook on (our Windows IIS server)
 
@@ -218,6 +229,7 @@ You are ready to automate!
 > completed playbook should look like this. Take note of the spacing and
 > alignment.
 
+```yaml
     ---
     - name: install the iis web service
       hosts: windows
@@ -241,3 +253,4 @@ You are ready to automate!
         - name: Show website address
           debug:
             msg: http://{{ ansible_host }}
+```

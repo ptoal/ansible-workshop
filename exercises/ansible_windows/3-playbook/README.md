@@ -108,12 +108,12 @@ of this exercise.
 
        - name: Create website index.html
          win_copy:
-           content: "{{ iis_test_message }}"
+           content: "\{\{ iis_test_message \}\}"
            dest: C:\Inetpub\wwwroot\index.html
 
        - name: Show website address
          debug:
-           msg: "http://{{ ansible_host }}"
+           msg: "http://\{\{ ansible_host \}\}"
 
 - `tasks:` This denotes that one or more tasks are about to be defined
 

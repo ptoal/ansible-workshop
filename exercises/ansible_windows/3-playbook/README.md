@@ -42,7 +42,7 @@ our playbook, and add just a couple of files.
 Open Visual Studio Code
 
 For this lab, we have already created a clone of your Git repository for
-you. 
+you.
 
 To access it, click the link for VS Code Access from the workshop page.
 
@@ -88,10 +88,10 @@ Section 3: Adding Tasks to Your Play
 
 Now that we’ve defined your play, let’s add some tasks to get some
 things done. Align (vertically) the **t** in `task` with the **h** in
-`hosts`.  
+`hosts`.
 Yes, it does actually matter. In fact, you should make sure all of your
 playbook statements are aligned in the way shown here. You also must use
-spaces for indentation. Tabs are not valid YAML syntax.  
+spaces for indentation. Tabs are not valid YAML syntax.
 If you want to see the entire playbook for reference, skip to the bottom
 of this exercise.
 
@@ -113,7 +113,7 @@ of this exercise.
 
        - name: Show website address
          debug:
-           msg: http://{{ ansible_host }}
+           msg: "http://{{ ansible_host }}"
 
 - `tasks:` This denotes that one or more tasks are about to be defined
 
@@ -162,7 +162,7 @@ of this exercise.
       msg: http://{{ ansible_host }}
 
 - This task uses the `debug` module to post a message at the end of playbook execution. This particular message prints out `http://` + the variable name that contains the IP address of the host we're running the playbook on (our Windows IIS server)
-  
+
 
 Section 4: Saving your Playbook
 ===============================

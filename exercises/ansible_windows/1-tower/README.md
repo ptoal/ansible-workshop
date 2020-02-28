@@ -64,7 +64,7 @@ Complete the form using the following entries:
 Step 4:
 -------
 
-Select SAVE ![Save](images/at_save.png)  
+Select SAVE ![Save](images/at_save.png)
 
 Create an SCM Credential
 ========================
@@ -82,7 +82,7 @@ with the following details:
 | Username     | student#                         | Replace # with your student number         |
 | Password     | *******                          | Replace ******* with your student password |
 
-Select SAVE ![Save](images/at_save.png)  
+Select SAVE ![Save](images/at_save.png)
 
 ![Add SCM Credential](images/1-tower-add-scm-credential.png)
 
@@ -111,7 +111,8 @@ Step 3:
 -------
 
 Complete the form using the following entries (**using your student
-number in SCM URL**)
+number in SCM URL**):
+<!-- {% raw %} -->
 
 | Key            | Value                                                                   |                                                   |
 |----------------|-------------------------------------------------------------------------|---------------------------------------------------|
@@ -128,6 +129,7 @@ SCM UPDATE OPTIONS
 - [ ] Delete on Update
 - [x] Update Revision on Launch
 
+<!-- {% endraw %} -->
 
 ![Defining a Project](images/1-tower-create-project.png)
 
@@ -229,7 +231,7 @@ If you click the **HOSTS** button, you can view the hosts belonging to the windo
 
 This is the IP address of this particular server
 
-**`ansible_password`** 
+**`ansible_password`**
 
 This is the password needed to connect to this server
 

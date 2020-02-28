@@ -114,7 +114,7 @@ Complete the form using the following entries (**using your student
 number in SCM URL**):
 <!-- {% raw %} -->
 
-| Key            | Value                                                                   |                                                   |
+| Key            | Value                                                                   |  Comment                                          |
 |----------------|-------------------------------------------------------------------------|---------------------------------------------------|
 | Name           | Ansible Workshop Project                                                |                                                   |
 | Description    | Workshop playbooks                                                      |                                                   |
@@ -123,6 +123,7 @@ number in SCM URL**):
 | SCM URL        | https://gitlab.**WORKSHOP**.rhdemo.io/**student#**/workshop_project.git | **Replace the workshop name and student# in URL** |
 | SCM BRANCH     |                                                                         | Intentionally blank                               |
 | SCM CREDENTIAL | Git Credential                                                          |                                                   |
+
 SCM UPDATE OPTIONS
 
 - [ ] Clean

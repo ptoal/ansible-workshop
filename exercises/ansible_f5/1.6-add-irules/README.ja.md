@@ -8,6 +8,7 @@
 - [解説](#解説)
 - [Playbook の出力](#Playbookの出力)
 - [解答](#解答)
+- [確認](#確認)
 
 # 目的
 
@@ -84,7 +85,7 @@ when HTTP_REQUEST {
    irules: ['irule1','irule2']
 
   tasks:
-  
+
   - name: ADD iRules
     bigip_irule:
       provider:

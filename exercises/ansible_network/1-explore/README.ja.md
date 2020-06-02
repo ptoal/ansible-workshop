@@ -36,13 +36,13 @@
 
 ## Step 1
 
-コントローラーノードの `networking-workshop` ディレクトリへ移動します。プロンプトの `ansible` はホスト名を示し、これは正しいノード上にいることを示しています。
+コントローラーノードの `network-workshop` ディレクトリへ移動します。プロンプトの `ansible` はホスト名を示し、これは正しいノード上にいることを示しています。
 
 ```
-[student1@ansible ~]$ cd ~/networking-workshop/
-[student1@ansible networking-workshop]$
-[student1@ansible networking-workshop]$ pwd
-/home/student1/networking-workshop
+[student1@ansible ~]$ cd ~/network-workshop/
+[student1@ansible network-workshop]$
+[student1@ansible network-workshop]$ pwd
+/home/student1/network-workshop
 ```
  - `~` - チルダはホームディレクトリ `/home/student1` の短縮表記
  - `cd` - ディレクトリを移動するコマンド
@@ -79,7 +79,7 @@ timeout = 60
 deprecation_warnings = False
 host_key_checking = False
 retry_files_enabled = False
-inventory = /home/student1/networking-workshop/lab_inventory/hosts
+inventory = /home/student1/lab_inventory/hosts
 [persistent_connection]
 connect_timeout = 60
 command_timeout = 60
@@ -96,7 +96,7 @@ command_timeout = 60
 この演習では **ini** 形式で記述されたファイルベースのインベントリーを利用します。`cat` コマンドを利用して演習環境のインベントリーを確認してみます。
 
 ```bash
-[student1@ansible ~]$ cat ~/networking-workshop/lab_inventory/hosts
+[student1@ansible ~]$ cat ~/lab_inventory/hosts
 ```
 
 ```

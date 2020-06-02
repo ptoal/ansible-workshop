@@ -1,6 +1,13 @@
-# 演習 2.1 - Tower の紹介
+# 演習 - Tower の紹介
 
-**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png) [日本語](README.ja.md).
+**Read this in other languages**:
+<br>![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png)[日本語](README.ja.md), ![brazil](../../../images/brazil.png) [Portugues do Brasil](README.pt-br.md), ![france](../../../images/fr.png) [Française](README.fr.md),![Español](../../../images/col.png) [Español](README.es.md).
+
+* [Ansible Tower の価値](#ansible-tower-の価値)
+* [Ansible Tower ラボ環境](#ansible-tower-ラボ環境)
+* [ダッシュボード](#ダッシュボード)
+* [Ansible Tower の概念](#ansible-tower-の概念)
+
 
 ## Ansible Tower の価値
 

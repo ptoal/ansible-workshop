@@ -1,6 +1,17 @@
-# 演習 2.7 - まとめ
+# 演習 - まとめ
 
-**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png) [日本語](README.ja.md).
+**Read this in other languages**:
+<br>![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png)[日本語](README.ja.md), ![brazil](../../../images/brazil.png) [Portugues do Brasil](README.pt-br.md), ![france](../../../images/fr.png) [Française](README.fr.md), ![Español](../../../images/col.png) [Español](README.es.md).
+
+* [最終チャレンジとまとめ](#最終チャレンジとまとめ)
+  * [ステージの設定](#ステージの設定)
+  * [Git リポジトリ](#git-リポジトリ)
+  * [インベントリーを確認する](#インベントリーを確認する)
+  * [テンプレートの作成](#テンプレートの作成)
+  * [結果を確認します](#結果を確認します)
+  * [Survey の追加](#survey-の追加)
+  * [解決方法](#解決方法)
+* [終わり](#終わり)
 
 # 最終チャレンジとまとめ  
 
@@ -30,7 +41,7 @@
 
 以前の Apache インストールロールと比較すると、大きな違いがあります。`index.html` テンプレートには2つのバージョンがあり、そのソースファイルの一部には変数入力が存在し、タスクによりこのテンプレートがデプロイされます。  
 
-`dev_index.html.j2` 
+`dev_index.html.j2`
 
 ```html
 <body>
@@ -118,7 +129,7 @@ dev wweb
 
 Ansible では、 `curl` コマンドを `command` モジュールで実行するよりも優れたモジュールが提供されているため、警告が出ますが、今回は無視して大丈夫です。  
 
-## Survey の追加 
+## Survey の追加
 
 - 変数 `dev_content` と `prod_content`　の内容を変更できるように、Surveyを追加します
 

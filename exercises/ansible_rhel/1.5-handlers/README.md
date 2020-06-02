@@ -1,8 +1,27 @@
-# Exercise 1.5 - Conditionals, Handlers and Loops
+# Workshop Exercise - Conditionals, Handlers and Loops
 
-**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png) [日本語](README.ja.md).
+**Read this in other languages**:
+<br>![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png)[日本語](README.ja.md), ![brazil](../../../images/brazil.png) [Portugues do Brasil](README.pt-br.md), ![france](../../../images/fr.png) [Française](README.fr.md),![Español](../../../images/col.png) [Español](README.es.md).
 
-## Step 5.1 - Conditionals
+## Table of Contents
+
+* [Objective](#objective)
+* [Guide](#guide)
+* [Step 1 - Conditionals](#step-1---conditionals)
+* [Step 2 - Handlers](#step-2---handlers)
+* [Step 3 - Simple Loops](#step-3---simple-loops)
+* [Step 4 - Loops over hashes](#step-4---loops-over-hashes)
+
+# Objective
+
+Three foundational Ansible features are:  
+- [Conditionals](https://docs.ansible.com/ansible/latest/user_guide/playbooks_conditionals.html)
+- [Handlers](https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html#handlers-running-operations-on-change)
+- [Loops](https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html)
+
+# Guide
+
+## Step 1 - Conditionals
 
 Ansible can use conditionals to execute tasks or plays when certain conditions are met.
 
@@ -15,7 +34,7 @@ To implement a conditional, the `when` statement must be used, followed by the c
 | \>   | true if the left hand side is greater than the right hand side.        |
 | \>=  | true if the left hand side is greater or equal to the right hand side. |
 | \<   | true if the left hand side is lower than the right hand side.          |
-| \< = | true if the left hand side is lower or equal to the right hand side.   |
+| \<= | true if the left hand side is lower or equal to the right hand side.   |
 
 For more on this, please refer to the documentation: <http://jinja.pocoo.org/docs/2.10/templates/>
 
@@ -70,7 +89,7 @@ skipping: [node3]
 changed: [node2]
 ```
 
-## Step 5.2 - Handlers
+# Step 2 - Handlers
 
 Sometimes when a task does make a change to the system, an additional task or tasks may need to be run. For example, a change to a service’s configuration file may then require that the service be restarted so that the changed configuration takes effect.
 
@@ -78,14 +97,14 @@ Here Ansible’s handlers come into play. Handlers can be seen as inactive tasks
 
 As a an example, let’s write a Playbook that:
 
-  - manages Apache’s configuration file `httpd.conf` on all hosts in the `web` group
+  - manages Apache’s configuration file `/etc/httpd/conf/httpd.conf` on all hosts in the `web` group
 
   - restarts Apache when the file has changed
 
 First we need the file Ansible will deploy, let’s just take the one from node1. Remember to replace the IP address shown in the listing below with the IP address from your individual `node1`.
 
-```bash
-[student<X>@ansible ansible-files]$ scp 11.22.33.44:/etc/httpd/conf/httpd.conf ~/ansible-files/.
+```
+[student<X>@ansible ansible-files]$ scp 11.22.33.44:/etc/httpd/conf/httpd.conf ~/ansible-files/files/.
 student<X>@11.22.33.44's password:
 httpd.conf             
 ```
@@ -116,11 +135,11 @@ So what’s new here?
   - The "notify" section calls the handler only when the copy task actually changes the file. That way the service is only restarted if needed - and not each time the playbook is run.
 
   - The "handlers" section defines a task that is only run on notification.
+<hr>
 
 Run the Playbook. We didn’t change anything in the file yet so there should not be any `changed` lines in the output and of course the handler shouldn’t have fired.
 
-  - Now change the `Listen 80` line in httpd.conf to:
-
+  - Now change the `Listen 80` line in `~/ansible-files/files/httpd.conf` to:
 
 ```ini
 Listen 8080
@@ -135,16 +154,16 @@ Listen 8080
 Apache should now listen on port 8080. Easy enough to verify:
 
 ```bash
-[student1@ansible ansible-files]$ curl http://22.33.44.55
+[student1@ansible ansible-files]$ curl http://node1
 curl: (7) Failed connect to 22.33.44.55:80; Connection refused
-[student1@ansible ansible-files]$ curl http://22.33.44.55:8080
+[student1@ansible ansible-files]$ curl http://node1:8080
 <body>
 <h1>This is a production webserver, take care!</h1>
 </body>
 ```
-Feel free to change the httpd.conf file again and run the Playbook.
+Feel free to change the httpd.conf file again and run the playbook.
 
-## Step 5.3 - Simple Loops
+## Step 3 - Simple Loops
 
 Loops enable us to repeat the same task over and over again. For example, lets say you want to create multiple users. By using an Ansible loop, you can do that in a single task. Loops can also iterate over more than just basic lists. For example, if you have a list of users with their coresponding group, loop can iterate over them as well. Find out more about loops in the [Ansible Loops](https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html) documentation.
 
@@ -179,7 +198,7 @@ Understand the playbook and the output:
   - During execution the task is only listed once, but there are three changes listed underneath it.
 <!-- {% endraw %} -->
 
-## Step 5.4 - Loops over hashes
+## Step 4 - Loops over hashes
 
 As mentioned loops can also be over lists of hashes. Imagine that the users should be assigned to different additional groups:
 
@@ -230,5 +249,8 @@ uid=1002(dev_user) gid=1002(dev_user) Gruppen=1002(dev_user),50(ftp)
 ```
 
 ----
+**Navigation**
+<br>
+[Previous Exercise](../1.4-variables) - [Next Exercise](../1.6-templates)
 
 [Click here to return to the Ansible for Red Hat Enterprise Linux Workshop](../README.md#section-1---ansible-engine-exercises)

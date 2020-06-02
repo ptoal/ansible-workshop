@@ -6,7 +6,7 @@ To showcase how to automate a SIEM in a security environment, this lab contains 
 
 The SIEM can be accessed via web UI and via REST API. In this lab the playbooks we write will be interacting with the API in the background. All actions will be verified in the web UI.
 
-## Step 4.1 - Access the web UI
+## Step 4.2 - Access the web UI
 
 Have a first look at the SIEM, and verify that it is actualy working. Point your web broswer towards `https://<qradar-IP>`, where `<qradar-IP>` is the IP address for the `qradar` entry in your `siem` section of your inventory. Next you will be faced with a warning that the vertificate is unsecure since it is self-signed. Please accept this and proceed.
 
@@ -53,7 +53,7 @@ Click on the one called **"Potential DDoS Against Single Host (TCP)"**, note tha
 
 Now that you had a very first glance at QRadar, it is time to look how it can be automated by Ansible.
 
-## Step 4.2 - QRadar modules and Ansible collections
+## Step 4.3 - QRadar modules and Ansible collections
 
 On the most basic level, Ansible automation performs tasks. Those tasks execute modules, which usually work on the corresponding targets, like an API endpoint of a special device or program.
 
@@ -65,7 +65,7 @@ Collections follow a simple directory structure to provide Ansible content. If y
 
 As roles, collections also need to be installed first before they can be used. They are installed on the machine executing Ansible,  in the case of the lab this is the control host.
 
-Let's install the collection for QRadar modules on your control host. Use SSH to access your control host `ansible` with the IP provided by your instructor and execute the command `ansible-galaxy collection --help` to verify that the collections function is working properly:
+Let's install the collection for QRadar modules on your control host. In your VS Code online editor open a new terminal. Execute the command `ansible-galaxy collection --help` to verify that the collections function is working properly:
 
 ```bash
 [student<X>@ansible ~]$ ansible-galaxy collection --help
@@ -113,11 +113,11 @@ With the collection in place, we can now start to write our playbook.
 >
 > If you want to try this at home: please note that this collection command requires at least Ansible version 2.9!
 
-## Step 4.3 - First example playbook
+## Step 4.4 - First example playbook
 
 In our first example to interface with QRadar we are going to enable/disable a rule. It is a rather small but common change and shows how Ansible and QRadar interact. We will do this in two steps: first we find the rule we want to change, afterwards we apply the change.
 
-On your control host, open an editor to create a new file, `find_qradar_rule.yml`. Add the name and target hosts, here `qradar`.
+In your VS Code online editor, create a new file, `find_qradar_rule.yml` in the home directory of your user. Add the name and target hosts, here `qradar`.
 
 ```yaml
 ---
@@ -243,7 +243,7 @@ How do we get the key when it is in this structure? First, it is in the segment 
 
 So, let's write a new playbook where we provide this as a value to the module which can disable the rule, `qradar_rule`.
 
-On your control host, open an editor to create a new file, `change_qradar_rule.yml`. Add the name and target hosts, here `qradar`.
+In your VS Code online editor, create a new file, `change_qradar_rule.yml` in the home directory `/home/student<X>/`. Add the name and target hosts, here `qradar`.
 
 <!-- {% raw %} -->
 ```yaml
@@ -268,7 +268,7 @@ On your control host, open an editor to create a new file, `change_qradar_rule.y
 
 The playbook is now complete: it queries QRadar for the list of rules, and deactives the one we are looking for.
 
-## Step 4.6 - Run the playbook
+## Step 4.5 - Run the playbook
 
 After we completed the playbook, let's execute it:
 
@@ -292,7 +292,7 @@ qradar  : ok=3  changed=1  unreachable=0  failed=0  skipped=0  rescued=0  ignore
 
 As you can see, the playbook denotes a change: the rule was changed. Run the playbook again - it does not report a change anymore, since the rule is now already disabled.
 
-## Step 4.7 - Verfiy changes in UI
+## Step 4.6 - Verfiy changes in UI
 
 To verify that Ansible indeed changed something, we go back to the UI of QRadar. Open the QRadar IP in your web browser. Click on the **Offenses** tab, and from there on the left side click on **Rules**. The long list of rules is displayed. In the search bar on top of this list, enter the following search term: `DDoS`
 Hit enter afterwards to filter the list, so that it only shows few rules which are related to DDOS. At the end, note the rule regarding potential DDOS attacks, and check the state in the **Enabled** column: it is set to **False**!

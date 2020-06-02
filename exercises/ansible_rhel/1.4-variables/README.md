@@ -1,16 +1,36 @@
-# Exercise 1.4 - Using Variables
+# Workshop Exercise - Using Variables
 
-**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png) [日本語](README.ja.md).
+**Read this in other languages**:
+<br>![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png)[日本語](README.ja.md), ![brazil](../../../images/brazil.png) [Portugues do Brasil](README.pt-br.md), ![france](../../../images/fr.png) [Française](README.fr.md),![Español](../../../images/col.png) [Español](README.es.md).
 
-Previous exercises showed you the basics of Ansible Engine.  In the next few exercises, we are going
-to teach some more advanced Ansible skills that will add flexibility and power to your playbooks.
+## Table of Contents
 
-Ansible exists to make tasks simple and repeatable.  We also know that not all systems are exactly alike and often require
-some slight change to the way an Ansible playbook is run.  Enter variables.
+* [Objective](#objective)
+* [Guide](#guide)
+* [Intro to Variables](#intro-to-variables)
+* [Step 1 - Create Variable Files](#step-1---create-variable-files)
+* [Step 2 - Create index.html Files](#step-2---create-indexhtml-files)
+* [Step 3 - Create the Playbook](#step-3---create-the-playbook)
+* [Step 4 - Test the Result](#step-4---test-the-result)
+* [Step 5 - Ansible Facts](#step-5---ansible-facts)
+* [Step 6 - Challenge Lab: Facts](#step-6---challenge-lab-facts)
+* [Step 7 - Using Facts in Playbooks](#step-7---using-facts-in-playbooks)
+
+# Objective
 
 Ansible supports variables to store values that can be used in Playbooks. Variables can be defined in a variety of places and have a clear precedence. Ansible substitutes the variable with its value when a task is executed.
 
-Variables are referenced in Playbooks by placing the variable name in double curly braces:
+This exercise covers variables, specifically
+- How to use variable delimiters `{{` and `}}`
+- What `host_vars` and `group_vars` are and when to use them
+- How to use `ansible_facts`
+- How to use the `debug` module to print variables to the console window
+
+# Guide
+
+## Intro to Variables
+
+Variables are referenced in Ansible Playbooks by placing the variable name in double curly braces:
 
 <!-- {% raw %} -->
 ```yaml
@@ -30,9 +50,10 @@ The recommended practice to provide variables in the inventory is to define them
 >
 > Host variables take precedence over group variables (more about precedence can be found in the [docs](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable)).
 
-## Step 4.1 - Create Variable Files
 
-For understanding and practice let’s do a lab. Following up on the theme "Let’s build a webserver. Or two. Or even more…​", you will change the `index.html` to show the development environment (dev/prod) a server is deployed in.
+## Step 1 - Create Variable Files
+
+For understanding and practice let’s do a lab. Following up on the theme "Let’s build a web server. Or two. Or even more…​", you will change the `index.html` to show the development environment (dev/prod) a server is deployed in.
 
 On the ansible control host, as the `student<X>` user, create the directories to hold the variable definitions in `~/ansible-files/`:
 
@@ -60,13 +81,13 @@ What is this about?
 
   - For all servers in the `web` group the variable `stage` with value `dev` is defined. So as default we flag them as members of the dev environment.
 
-  - For server `node2` this is overriden and the host is flagged as a production server.
+  - For server `node2` this is overridden and the host is flagged as a production server.
 
-## Step 4.2 - Create index.html Files
+## Step 2 - Create web.html Files
 
-Now create two files in `~/ansible-files/`:
+Now create two files in `~/ansible-files/files/`:
 
-One called `prod_index.html` with the following content:
+One called `prod_web.html` with the following content:
 
 ```html
 <body>
@@ -74,7 +95,7 @@ One called `prod_index.html` with the following content:
 </body>
 ```
 
-And the other called `dev_index.html` with the following content:
+And the other called `dev_web.html` with the following content:
 
 ```html
 <body>
@@ -82,9 +103,9 @@ And the other called `dev_index.html` with the following content:
 </body>
 ```
 
-## Step 4.3 - Create the Playbook
+## Step 3 - Create the Playbook
 
-Now you need a Playbook that copies the prod or dev `index.html` file - according to the "stage" variable.
+Now you need a Playbook that copies the prod or dev `web.html` file - according to the "stage" variable.
 
 Create a new Playbook called `deploy_index_html.yml` in the `~/ansible-files/` directory.
 
@@ -95,13 +116,13 @@ Create a new Playbook called `deploy_index_html.yml` in the `~/ansible-files/` d
 <!-- {% raw %} -->
 ```yaml
 ---
-- name: Copy index.html
+- name: Copy web.html
   hosts: web
-  become: yes
+  become: true
   tasks:
-  - name: copy index.html
+  - name: copy web.html
     copy:
-      src: ~/ansible-files/{{ stage }}_index.html
+      src: "{{ stage }}_web.html"
       dest: /var/www/html/index.html
 ```
 <!-- {% endraw %} -->
@@ -112,24 +133,30 @@ Create a new Playbook called `deploy_index_html.yml` in the `~/ansible-files/` d
 [student<X>@ansible ansible-files]$ ansible-playbook deploy_index_html.yml
 ```
 
-## Step 4.4 - Test the Result
+## Step 4 - Test the Result
 
-The Playbook should copy different files as index.html to the hosts, use `curl` to test it. Check the inventory again if you forgot the IP addresses of your nodes.
+The Ansible Playbook copies different files as index.html to the hosts, use `curl` to test it.
 
-```bash
-[student<X>@ansible ansible-files]$ grep node ~/lab_inventory/hosts
-node1 ansible_host=11.22.33.44
-node2 ansible_host=22.33.44.55
-node3 ansible_host=33.44.55.66
-[student<X>@ansible ansible-files]$ curl http://11.22.33.44
+For node1:
+```
+[student<X>@ansible ansible-files]$ curl http://node1
 <body>
 <h1>This is a development webserver, have fun!</h1>
 </body>
-[student1@ansible ansible-files]$ curl http://22.33.44.55
+```
+
+For node2:
+
+```
+[student1@ansible ansible-files]$ curl http://node2
 <body>
 <h1>This is a production webserver, take care!</h1>
 </body>
-[student1@ansible ansible-files]$ curl http://33.44.55.66
+```
+
+For node3:
+```
+[student1@ansible ansible-files]$ curl http://node3
 <body>
 <h1>This is a development webserver, have fun!</h1>
 </body>
@@ -139,7 +166,7 @@ node3 ansible_host=33.44.55.66
 >
 > If by now you think: There has to be a smarter way to change content in files…​ you are absolutely right. This lab was done to introduce variables, you are about to learn about templates in one of the next chapters.
 
-## Step 4.5 - Ansible Facts
+## Step 5 - Ansible Facts
 
 Ansible facts are variables that are automatically discovered by Ansible from a managed host. Remember the "Gathering Facts" task listed in the output of each `ansible-playbook` execution? At that moment the facts are gathered for each managed nodes. Facts can also be pulled by the `setup` module. They contain useful information stored into variables that administrators can reuse.
 
@@ -160,7 +187,7 @@ Or what about only looking for memory related facts:
 [student<X>@ansible ansible-files]$ ansible node1 -m setup -a 'filter=ansible_*_mb'
 ```
 
-## Step 4.6 - Challenge Lab: Facts
+## Step 6 - Challenge Lab: Facts
 
   - Try to find and print the distribution (Red Hat) of your managed hosts. On one line, please.
 
@@ -177,7 +204,7 @@ Or what about only looking for memory related facts:
 [student<X>@ansible ansible-files]$ ansible node1 -m setup -a 'filter=ansible_distribution' -o
 ```
 
-## Step 4.7 - Using Facts in Playbooks
+## Step 7 - Using Facts in Playbooks
 
 Facts can be used in a Playbook like variables, using the proper naming, of course. Create this Playbook as `facts.yml` in the `~/ansible-files/` directory:
 
@@ -228,5 +255,13 @@ node3                      : ok=2    changed=0    unreachable=0    failed=0
 ```
 
 ----
+**Navigation**
+<br>
 
-[Click here to return to the Ansible for Red Hat Enterprise Linux Workshop](../README.md#section-1---ansible-engine-exercises)
+{% if page.url contains 'ansible_rhel_90' %}
+[Previous Exercise](../3-playbook) - [Next Exercise](../5-surveys)
+{% else %}
+[Previous Exercise](../1.3-playbook) - [Next Exercise](../1.5-handlers)
+{% endif %}
+<br><br>
+[Click here to return to the Ansible for Red Hat Enterprise Linux Workshop](../README.md)

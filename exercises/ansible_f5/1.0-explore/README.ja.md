@@ -11,11 +11,11 @@
 
 #### Step 1
 
-`networking-workshop` ディレクトリへ移動してください。
+`f5-workshop` ディレクトリへ移動してください。
 
 ```
-[student1@ansible ~]$ cd networking-workshop/
-[student1@ansible networking-workshop]$
+[student1@ansible ~]$ cd f5-workshop/
+[student1@ansible f5-workshop]$
 ```
 
 #### Step 2
@@ -23,7 +23,7 @@
 設定を確認するために `ansible` コマンドに `--version` オプションをつけて実行します:
 
 ```
-[student1@ansible networking-workshop]$ ansible --version
+[student1@ansible f5-workshop]$ ansible --version
 ansible 2.6.2
   config file = /home/student1/.ansible.cfg
   configured module search path = [u'/home/student1/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
@@ -43,14 +43,14 @@ ansible 2.6.2
 
 
 ```
-[student1@ansible networking-workshop]$ cat ~/.ansible.cfg
+[student1@ansible f5-workshop]$ cat ~/.ansible.cfg
 [defaults]
 connection = smart
 timeout = 60
-inventory = /home/student1/networking-workshop/lab_inventory/hosts
+inventory = /home/student1/lab_inventory/hosts
 host_key_checking = False
 private_key_file = /home/student1/.ssh/aws-private.pem
-[student1@ansible networking-workshop]$
+[student1@ansible f5-workshop]$
 
 ```
 
@@ -65,7 +65,7 @@ Note: `ansible.cfg` には以下のパラメーターが含まれています:
 
 この演習では **ini** 形式で書かれたファイルを使います. `cat` コマンドでインベントリーの中身を確認します:
 
-`[student1@ansible networking-workshop]$ cat lab_inventory/hosts`
+`[student1@ansible f5-workshop]$ cat ~/lab_inventory/hosts`
 
 以下が student2 の出力例です:
 ```
@@ -80,14 +80,14 @@ f5 ansible_host=34.199.128.69 ansible_user=admin private_ip=172.16.26.136 ansibl
 [control]
 ansible ansible_host=107.23.192.217 ansible_user=ec2-user private_ip=172.16.207.49
 
-[webservers]
-host1 ansible_host=107.22.141.4 ansible_user=ec2-user private_ip=172.16.170.190
-host2 ansible_host=54.146.162.192 ansible_user=ec2-user private_ip=172.16.160.13
+[web]
+node1 ansible_host=107.22.141.4 ansible_user=ec2-user private_ip=172.16.170.190
+node2 ansible_host=54.146.162.192 ansible_user=ec2-user private_ip=172.16.160.13
 ```
 
 #### Step 5
 
-上の出力では `[ ]` でグループを定義しています。例えば `[webservers]` は `host1` と `host2` を含んむグループです。
+上の出力では `[ ]` でグループを定義しています。例えば `[web]` は `node1` と `node2` を含んむグループです。
 
 > Note: **all** というグループは常に存在し、インベントリー内で定義された全てのホストとグループを含みます。
 
@@ -109,7 +109,7 @@ f5 ansible_host=34.199.128.69 ansible_user=admin private_ip=172.16.26.136 ansibl
 ホームディレクトリへ戻ります。
 
 ```
-[student1@ansible networking-workshop]$ cd ~
+[student1@ansible f5-workshop]$ cd ~
 ```
 
 本演習は以上となります。  [Click here to return to the lab guide](../README.ja.md)

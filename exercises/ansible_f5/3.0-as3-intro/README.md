@@ -20,7 +20,7 @@ Demonstrate building a virtual server (exactly like the Section 1 Ansible F5 Exe
 
 # Guide
 
-#### Make sure the BIG-IP configuration is clean, run exercise 1.6-delete-configuration before proceeding
+#### Make sure the BIG-IP configuration is clean, run exercise [2.1-delete-configuration](../2.1-delete-configuration/README.md) before proceeding
 
 ## Step 1:
 
@@ -120,7 +120,7 @@ This template is a JSON representation of the Web Application.  The important pa
 <!-- {% raw %} -->
 ```
 mkdir j2
-cp ~/networking-workshop/3.0-as3-intro/j2/* j2/
+cp ~/f5-workshop/3.0-as3-intro/j2/* j2/
 ```
 <!-- {% endraw %} -->
 
@@ -142,7 +142,7 @@ Enter the following play definition into `as3.yml`:
   gather_facts: false
 
   vars:
-    pool_members: "{{ groups['webservers'] }}"
+    pool_members: "{{ groups['web'] }}"
 ```
 <!-- {% endraw %} -->
 
@@ -156,11 +156,11 @@ This section from above...
 <!-- {% raw %} -->
 ```
   vars:
-    pool_members: "{{ groups['webservers'] }}"
+    pool_members: "{{ groups['web'] }}"
 ```
 <!-- {% endraw %} -->
 
-...sets a variable named `pool_members`, to the webservers group.  There are two webservers on the workbench, `host1` and `host2`.  This means that the `pool_members` variable refers to a list of two webservers.
+...sets a variable named `pool_members`, to the web group.  There are two web on the workbench, `node1` and `node2`.  This means that the `pool_members` variable refers to a list of two web.
 
 ## Step 5
 

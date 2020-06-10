@@ -88,7 +88,7 @@
         tower_license: "{{ lookup('file',playbook_dir+'/tower_license.json'))|from_json|combine({'eula_accepted':true}) }}"
 
   when:
-    - autolicense|bool == True
+    - autolicense is defined and autolicense|bool == True
     - tower_license_data is not defined
 
 - set_fact:

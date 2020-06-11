@@ -68,6 +68,7 @@
     group: "{{ username }}"
     state: directory
 
+- debug: msg="ansible_host={{ ansible_host }}, ansible_user={{ ansible_user }}"
 - name: copy over ssh config file
   template:
     src: sshconfig.j2

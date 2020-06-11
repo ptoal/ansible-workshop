@@ -156,3 +156,34 @@ objc[43678]: +[__NSPlaceholderDate initialize] may have been in progress in anot
 ```
 $ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 ```
+
+## Problem: How do I run the provisioner from Ansible Tower?
+
+Recent versions of Ansible Tower do not provide persistent storage.  This caused a couple of problems:
+
+1. The AWS SSH Key can not be stored locally, which prevents the provisioner from being re-run to continue from a failure.
+2. The autolicense feature depended on storing the license file on the local filesystem.
+
+### Solution:
+
+These issues have been overcome by:
+
+1. Creating a private S3 bucket for storage of provisioner files like the S3 SSH Key.
+2. An Ansible Tower License can now be passed in as extra_vars.
+
+To run the provisioner from Tower:
+- Create a Project pointed to this repo.
+- Create a Template that calls the provisioner/provision_lab.yml playbook
+- In the Extra Variables box, put in the required parameters, eg:
+```
+admin_password: <strong password>
+autolicense: true
+ec2_name_prefix: <your_prefix>
+workshop_type: <type>
+... other required vars ...
+tower_license_data: >-
+  {    "company_name": "Red Hat Workshop Demo",     "contact_email": "yourname@domain.com",     "contact_name": "Your Name",     "hostname": "***" ... "subscription_name": "Red Hat Ansible Tower, Standard (10 Managed Nodes) Trial",     "trial": true }
+
+Note: The provisioner will automatically set eula_accepted: true for the license when the playbook is run.
+
+Optional: Create a survey to collect license data at runtime.

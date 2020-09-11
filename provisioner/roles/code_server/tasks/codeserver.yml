@@ -34,6 +34,7 @@
 - name: install code-server 3 rpm from local rpm
   dnf:
     name: /tmp/code-server.rpm
+    disable_gpg_check: yes
     state: present
 
 - name: Apply our systemd service file (instead of RPM file)

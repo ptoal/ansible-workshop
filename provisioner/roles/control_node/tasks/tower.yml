@@ -1,7 +1,7 @@
 ---
 - name: Download Ansible Tower
   get_url:
-    url: '{{ tower_installer_url | default("https://releases.ansible.com/ansible-tower/setup/ansible-tower-setup-3.7.1-1.tar.gz") }}'
+    url: '{{ tower_installer_url | default("https://releases.ansible.com/ansible-tower/setup/ansible-tower-setup-3.7.2-1.tar.gz") }}'
     dest: /tmp/tower.tar.gz
 
 - name: Create directory for Ansible Tower
@@ -18,6 +18,13 @@
   template:
     src: tower_install.j2
     dest: /tmp/tower_install/inventory
+  when: create_cluster is not defined or not create_cluster|bool
+
+- name: template inventory file for Ansible Tower Install
+  template:
+    src: tower_cluster_install.j2
+    dest: /tmp/tower_install/inventory
+  when: create_cluster is defined and create_cluster|bool
 
 - name: run the Ansible Tower installer
   shell: ./setup.sh

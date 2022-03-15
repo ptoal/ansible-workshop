@@ -18,7 +18,6 @@
   delay: 20
 
 - name: Download aap.tar.gz
-  delegate_to: localhost
   get_url:
     url: "https://api.access.redhat.com/management/v1/images/{{ provided_sha_value }}/download"
     headers:

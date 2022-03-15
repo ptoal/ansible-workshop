@@ -15,9 +15,6 @@
           include_role:
             name: ../roles/aws_check_setup
 
-        - name: download AAP
-          include_role:
-            name: ../roles/aap_download
       rescue:
         - name: Error with setup
           fail:
@@ -52,6 +49,9 @@
     - include_role:
         name: ../roles/workshop_attendance
       when: attendance|bool
+    - name: download AAP
+      include_role:
+        name: ../roles/aap_download
 
 - name: wait for all security nodes to have SSH reachability
   hosts: "security_connection_check"

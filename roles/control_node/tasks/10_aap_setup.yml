@@ -6,8 +6,8 @@
   register: tempdir
 
 - name: copy AAP tar.gz
-  copy:
-    src: "{{ aap_archive | default(playbook_dir + '/aap.tar.gz') }}"
+  get_url:
+    url: "http://{{ hostvars['attendance-host'].ansible_host }}/aap.tar.gz"
     dest: "{{ tempdir.path }}/aap.tar.gz"
 
 - name: Create directory for automation controller

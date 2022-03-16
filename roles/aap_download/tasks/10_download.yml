@@ -23,7 +23,7 @@
     headers:
       accept: "application/json"
       Authorization: "Bearer {{ temp_token.json.access_token }}"
-    dest: "/var/www/html/aap.tar.gz"
+    dest: "/usr/share/nginx/aap.tar.gz"
     checksum: "sha256: {{ provided_sha_value }}"
   register: download_aap_tarball
   until: download_aap_tarball is not failed

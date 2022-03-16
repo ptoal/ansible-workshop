@@ -23,7 +23,7 @@
 
 - name: check if aap.tar.gz again (post download)
   stat:
-    path: "/var/www/html/aap.tar.gz"
+    path: "/usr/share/nginx/html/aap.tar.gz"
     checksum_algorithm: sha256
   register: stat_var
 
